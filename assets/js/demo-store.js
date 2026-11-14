@@ -1,6 +1,14 @@
 /* Browser-only demonstration storage. This is not server authorization or a database shared by visitors. */
 (() => {
   'use strict';
+  // Project Pages can inherit the account's custom domain with an HTTP redirect.
+  // Keep this demo on HTTPS without changing the account's other Pages sites.
+  if (location.protocol === 'http:' && !['localhost', '127.0.0.1', '::1', '[::1]'].includes(location.hostname)) {
+    const secureUrl = new URL(location.href);
+    secureUrl.protocol = 'https:';
+    location.replace(secureUrl.href);
+    return;
+  }
   const baseUrl = new URL('../../', document.currentScript.src);
   const databaseName = 'homewood-demo:' + baseUrl.pathname;
   const copy = value => JSON.parse(JSON.stringify(value));
